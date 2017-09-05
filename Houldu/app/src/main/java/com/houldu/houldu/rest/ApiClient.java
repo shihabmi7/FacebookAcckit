@@ -1,6 +1,8 @@
-package com.ucabs.passenger.rest;
+package com.houldu.houldu.rest;
 
-import com.ucabs.passenger.utils.Constants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.houldu.houldu.utility.ApplicationData;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,9 +22,15 @@ public class ApiClient {
 
     public static Retrofit getClient() {
         if (retrofit==null) {
+
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.TAXI_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(ApplicationData.TAXI_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

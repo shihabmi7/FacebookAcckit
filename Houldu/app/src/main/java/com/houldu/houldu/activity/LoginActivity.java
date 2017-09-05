@@ -1,4 +1,4 @@
-package com.houldu.houldu;
+package com.houldu.houldu.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,9 +15,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.accountkit.AccessToken;
+import com.facebook.accountkit.AccountKit;
+import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
+import com.houldu.houldu.R;
+import com.houldu.houldu.model.LoginResponse;
+import com.houldu.houldu.model.User;
+import com.houldu.houldu.rest.ApiClient;
+import com.houldu.houldu.rest.ApiInterface;
 import com.houldu.houldu.utility.ApplicationData;
 import com.houldu.houldu.utility.Connectivity;
+import com.houldu.houldu.utility.LogMe;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -27,13 +47,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     //    private static final String TAG = Constants.TAG;
     private View mProgressView;
     Button btn_sign_in, btn_sign_up;
-    EditText edit_phone_number;
+    EditText edit_email;
     EditText et_password;
     Context context;
     private Intent intent;
     TextView textView_sign_up, textview_forgot;
     Activity activity = this;
     CheckBox remember_check;
+    public static int APP_REQUEST_CODE = 99;
+
+    CallbackManager callbackManager;
+    private String TAG = "LogInActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +69,36 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_log_in);
         initialControls();
 
+        AccessToken accessToken = AccountKit.getCurrentAccessToken();
+
+        if (accessToken != null) {
+            //Handle Returning User
+        } else {
+            //Handle new or logged out user
+        }
+
+
     }
+
+    public void phoneLogin(final View view) {
+
+        final Intent intent = new Intent(LoginActivity.this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.PHONE,
+                        AccountKitActivity.ResponseType.TOKEN); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, APP_REQUEST_CODE);
+    }
+
 
     private void initialControls() {
         mProgressView = findViewById(R.id.login_progress);
 
-        edit_phone_number = (EditText) findViewById(R.id.edit_phone_number);
+        edit_email = (EditText) findViewById(R.id.edit_email);
         et_password = (EditText) findViewById(R.id.edit_pass);
 
         btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
@@ -113,10 +161,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 
             if (v.getId() == R.id.btn_sign_in) {
-                showProgress(true);
+                /*showProgress(true);
                 if (!checkUserInput()) {
                     logInRequestToServer();
-                }
+                }*/
+
+                phoneLogin(v);
 
             } else if (v.getId() == R.id.textView_sign_up) {
 
@@ -151,30 +201,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         finish();*/
     }
 
-    private void logInRequestToServer() {
-        ApplicationData.hideKeyboard(activity);
-        showProgressDialog();
-
-        final String number = edit_phone_number.getText().toString();
-        String password = et_password.getText().toString();
-
-        try {
-            // here i implementation
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     boolean checkUserInput() {
 
-        edit_phone_number.setError(null);
+        edit_email.setError(null);
         et_password.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = edit_phone_number.getText().toString();
+        String email = edit_email.getText().toString();
         String password = et_password.getText().toString();
 
         boolean cancel = false;
@@ -196,15 +229,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            edit_phone_number.setError(getString(R.string.error_field_required));
-            focusView = edit_phone_number;
+            edit_email.setError(getString(R.string.error_field_required));
+            focusView = edit_email;
+            cancel = true;
+        } else if (!ApplicationData.validateEmail(email)) {
+            edit_email.setError(getString(R.string.error_invalid_email));
+            focusView = edit_email;
             cancel = true;
         }
-//        else if (!ApplicationData.validateEmail(email)) {
-//            edit_phone_number.setError(getString(R.string.error_invalid_email));
-//            focusView = edit_phone_number;
-//            cancel = true;
-//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -215,28 +247,94 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         return cancel;
     }
 
-    /*private void logInRequestToServer() {
+    @Override
+    protected void onActivityResult(
+            final int requestCode,
+            final int resultCode,
+            final Intent data) {
 
-        ApplicationData.hideKeyboard(activity);
-        showProgressDialog();
-        RequestBody user_name = RequestBody.create(MediaType.parse("text/plain"), et_user_name.getText().toString());
-        RequestBody password = RequestBody.create(MediaType.parse("text/plain"), et_password.getText().toString());
-        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Constants.ACTION_SIGN_IN);
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == APP_REQUEST_CODE) {
+                // confirm that this response matches your request
+                final AccountKitLoginResult loginResult = AccountKit.loginResultWithIntent(data);
+                String toastMessage;
+                if (loginResult == null || loginResult.wasCancelled()) {
+                    toastMessage = "Login Cancelled";
+                } else if (loginResult.getError() != null) {
+                    toastMessage = loginResult.getError().getErrorType().getMessage();
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<LoginResponse> call = apiService.login(user_name, password, action);
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse loginResponse = response.body();
+                    final Intent intent = new Intent(this, ErrorActivity.class);
+                    intent.putExtra(ErrorActivity.HELLO_TOKEN_ACTIVITY_ERROR_EXTRA, loginResult.getError());
+                    startActivity(intent);
 
-                LogMe.e(TAG, "" + response.body());
-                hideProgressDialog();
+                } else {
+                    final AccessToken accessToken = loginResult.getAccessToken();
+                    final long tokenRefreshIntervalInSeconds =
+                            loginResult.getTokenRefreshIntervalInSeconds();
+                    if (accessToken != null) {
+                        LogMe.e("accessToken", ": " + accessToken.getToken());
+                        toastMessage = "Success:" + accessToken.getToken()
+                                + tokenRefreshIntervalInSeconds;
+                        //startActivity(new Intent(this, TokenActivity.class));
+                    } else {
+                        toastMessage = "Unknown response type";
+                    }
+                }
 
-                if (loginResponse.getPassenger_login().equals("1")) {
+                //Toast.makeText(getApplicationContext(), "" + loginResult.getAccessToken().getToken(), Toast.LENGTH_LONG).show();
+                //LogMe.e("#####", "acc token: " + loginResult.getAccessToken().getToken() + "authorization code: " + loginResult.getAuthorizationCode());
+                logInRequestToHoulduServer(loginResult.getAccessToken().getToken());
+
+                // Surface the result to your user in an appropriate way.
+                Toast.makeText(
+                        this,
+                        toastMessage,
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void goToMyLoggedInActivity() {
+
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+
+    }
+
+    private void logInRequestToHoulduServer(String access_token) {
+
+        try {
+
+            ApplicationData.hideKeyboard(activity);
+            showProgressDialog();
+            RequestBody token = RequestBody.create(MediaType.parse("text/plain"), access_token);
+        /*RequestBody password = RequestBody.create(MediaType.parse("text/plain"), et_password.getText().toString());
+          RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Constants.ACTION_SIGN_IN);*/
+
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            Call<LoginResponse> call = apiService.login(token);
+            call.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                    hideProgressDialog();
+                    LoginResponse loginResponse = response.body();
+                    User user = loginResponse.getUser();
+
+                    LogMe.e("LogInAct", "" + user.getPhone_number());
+                    goToHomeActivity();
+
+                /*if (loginResponse.getPassenger_login().equals("1")) {
                     showToastMessage(loginResponse.getData());
 
-                    prefsValues.setWill_be_logged(true);
+                    *//*prefsValues.setWill_be_logged(true);
                     prefsValues.setPassenger_Full_Name(loginResponse.getName());
                     prefsValues.setPassenger_id(loginResponse.getId());
                     prefsValues.setPassenger_User_Name(loginResponse.getUser_name());
@@ -250,26 +348,32 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     prefsValues.setWill_be_logged(remember_check.isChecked());
 
                     LogMe.e("Log", "" + prefsValues.getPassenger_id() + "" + prefsValues.getPassenger_Full_Name());
-
-                    ApplicationData.goToHomeActivity(activity);
+*//*
 
                 } else {
 
                     showToastMessage(loginResponse.getData());
+                }*/
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                // Log error here since request failed
-                LogMe.e(TAG, t.toString());
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    // Log error here since request failed
+                    LogMe.e(TAG, t.toString());
 //                    showProgress(false);
-                hideProgressDialog();
-                showToastMessage(t.toString());
-                //Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }*/
+                    hideProgressDialog();
+                    showToastMessage(t.toString());
+                    //Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
 
 }
 

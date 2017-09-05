@@ -7,23 +7,25 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="in.studytitorial.androidfaceboklogin.UserProfile">
+    tools:context=".activity.UserProfile">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/profilePic"/>
+        android:id="@+id/profilePic"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
     <TextView
+        android:id="@+id/UserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profilePic"
-        android:id="@+id/UserName"
-        android:text="Abhay Anand"/>
+        android:text="Abhay Anand" />
+
     <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/email"
         android:layout_below="@+id/UserName"
-        android:text="anand"/>
+        android:text="anand" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.calldoctor.calldoctor.utility;
+package com.houldu.houldu.utility;
 
 import android.app.Activity;
 import android.content.Context;

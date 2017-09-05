@@ -1,10 +1,10 @@
-package com.calldoctor.calldoctor.model;
+package com.houldu.houldu.model;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 
-import com.calldoctor.calldoctor.R;
+import com.houldu.houldu.R;
 
 
 /**

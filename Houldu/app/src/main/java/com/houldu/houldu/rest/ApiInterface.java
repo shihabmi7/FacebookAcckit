@@ -1,20 +1,13 @@
-package com.ucabs.passenger.rest;
+package com.houldu.houldu.rest;
 
-import com.ucabs.passenger.models.AllTrip;
-import com.ucabs.passenger.models.Passenger;
-import com.ucabs.passenger.models.Payment;
-import com.ucabs.passenger.models.Taxi;
-import com.ucabs.passenger.models.Trip;
-import com.ucabs.passenger.response.AccountRecoverResponse;
-import com.ucabs.passenger.response.LoginResponse;
-import com.ucabs.passenger.response.SignUpResponse;
-import com.ucabs.passenger.response.SimpleResponse;
-import com.ucabs.passenger.response.UpdateResponse;
 
-import okhttp3.MultipartBody;
+import com.houldu.houldu.model.LoginResponse;
+import com.houldu.houldu.model.SignUpResponse;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -29,10 +22,9 @@ public interface ApiInterface {
     Call<SignUpResponse> getTopRatedMovies(@Query("api_key") String apiKey);
 
     @Multipart
-    @POST("api?")
-    Call<LoginResponse> login(@Part("user_name") RequestBody user_name,
-                              @Part("password") RequestBody password,
-                              @Part("action") RequestBody action);
+    @Headers("Accept:application/json")
+    @POST("/api/v1/auth/phone")
+    Call<LoginResponse> login(@Part("access_token") RequestBody access_token);
 
     @Multipart
     @POST("api?")
@@ -44,7 +36,7 @@ public interface ApiInterface {
                                 @Part("phone") RequestBody phone,
                                 @Part("icard") RequestBody icard
     );
-
+/*
 //    profile_picture_file
 //    profile_picture
 
@@ -52,11 +44,11 @@ public interface ApiInterface {
 //    @POST("/")
 //    Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
 
-    /**
+    *//**
      * get Email For Account Recovery
      *
      * @param email
-     */
+     *//*
     @Multipart
     @POST("api?")
     Call<AccountRecoverResponse> getEmailForAccountRecovery(@Part("action") RequestBody action,
@@ -68,11 +60,11 @@ public interface ApiInterface {
 //            "data": "Your password has been updated successfully."
 //    }
 
-    /*driver_change_password
+    *//*driver_change_password
     param:driver_id, password(new password)
     ===========
     passenger_change_password
-    param: passenger_id, password(new password)*/
+    param: passenger_id, password(new password)*//*
 
     @Multipart
     @POST("api?")
@@ -95,9 +87,9 @@ public interface ApiInterface {
     //http://dev.riverbelt.com/taxiapi/bookingapi?
 
 
-    /**
+    *//**
      * a req. to book a trip
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Trip> bookATrip(@Part("action") RequestBody action,
@@ -114,11 +106,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * device id updated
      *
      * @param id, device_token_id
-     */
+     *//*
     @Multipart
     @POST("api?")
     Call<Passenger> updateDeviceToken(@Part("action") RequestBody action,
@@ -127,13 +119,13 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * get approximate fare
      *
      * @param distance
      * @params cab_type_id
      * @params time
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Trip> getApproximateFare(@Part("action") RequestBody action,
@@ -142,11 +134,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * CANCEL BOOKING BEFORE DRIVER CONFIRM
      *
      * @param temp_booking_id
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Trip> cancelBookingBeforeDriverAcceptRequest(@Part("action") RequestBody action,
@@ -154,11 +146,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * CANCEL BOOKING BEFORE DRIVER CONFIRM
      *
      * @param booking_id
-     */
+     *//*
 
     @Multipart
     @POST("bookingapi?")
@@ -168,11 +160,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * UPDATE  DRIVER LOCATION
      *
      * @param driver_id
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Trip> getDriverUpdateLocation(@Part("action") RequestBody action,
@@ -180,11 +172,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * Confirm Pick Up : pick_confirm_by_passenger
      *
      * @parameter booking_id, passenger_id
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Trip> confirmPickUP(
@@ -194,10 +186,10 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * Method : passenger_rating
      * Parameters-> booking_id,driver_id,passenger_id,score
-     */
+     *//*
     @Multipart
     @POST("api?")
     Call<Trip> rateYourDriver(
@@ -225,10 +217,10 @@ public interface ApiInterface {
 
     );
 
-    /**
+    *//**
      * Method: trip_cancel_by_passenger_before_confirm
      * Param: temp_booking_id
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<Taxi> cancelTripBeforeTripStart(
@@ -237,11 +229,11 @@ public interface ApiInterface {
     );
 
 
-    /**
+    *//**
      * give feedback
      *
      * @param
-     */
+     *//*
     @Multipart
     @POST("bookingapi?")
     Call<SimpleResponse> giveFeedback(@Part("action") RequestBody action,
@@ -256,11 +248,11 @@ public interface ApiInterface {
                                       @Part("suggestions") RequestBody suggestions
     );
 
-    /***
+    *//***
      * Method: passenger_upload_picture(POST)
      * API: api
      * Param: passenger_id, profile_picture
-     */
+     *//*
     @Multipart
     @POST("api")
     Call<SimpleResponse> uploadPicture(
@@ -271,10 +263,10 @@ public interface ApiInterface {
 
 
 
-    /*Method: add_payment_mode(POST)
+    *//*Method: add_payment_mode(POST)
     API: bookingapi
     Param: payment_type(Cash/Credit), passenger_id, card_no,expire_month,expire_year,name_on_card,cvv_code
-    Return Status: status:0(error), status:1(inserted)*/
+    Return Status: status:0(error), status:1(inserted)*//*
 
     @Multipart
     @POST("bookingapi")
@@ -289,12 +281,12 @@ public interface ApiInterface {
             @Part("cvv_code") RequestBody cvv_code
     );
 
-    /**
+    *//**
      * Method: get_passenger_payment_modes(POST)
      * API: bookingapi
      * Param: passenger_id
      * Return: return all data of payment mode of passenger
-     */
+     *//*
 
     @Multipart
     @POST("bookingapi")
@@ -305,10 +297,10 @@ public interface ApiInterface {
     );
 
 
-    /*Method: passenger_claim(POST)
+    *//*Method: passenger_claim(POST)
     API: bookingapi
     Param: transaction_id, comments, passenger_id
-    Return Status: status:0(already exist), status:1(inserted)*/
+    Return Status: status:0(already exist), status:1(inserted)*//*
 
     @Multipart
     @POST("bookingapi")
@@ -319,19 +311,19 @@ public interface ApiInterface {
             @Part("comments") RequestBody comments
 
     );
-    /**
+    *//**
 
      Method: trip_status(POST)
      API: bookingapi
      Param: booking_id
      Return: return 1 if trip live, and return 0 if trip finished
 
-    */
+     *//*
     @Multipart
     @POST("bookingapi")
     Call<SimpleResponse> tripStatus(
             @Part("action") RequestBody actionName,
             @Part("booking_id") RequestBody booking_id
 
-    );
+    );*/
 }

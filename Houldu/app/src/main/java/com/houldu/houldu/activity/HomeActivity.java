@@ -1,10 +1,9 @@
-package com.houldu.houldu;
+package com.houldu.houldu.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.facebook.accountkit.Account;
+import com.facebook.accountkit.AccountKit;
+import com.facebook.accountkit.AccountKitCallback;
+import com.facebook.accountkit.AccountKitError;
+import com.houldu.houldu.R;
+import com.houldu.houldu.utility.LogMe;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +47,33 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
+            @Override
+            public void onSuccess(final Account account) {
+//                final TextView userId = (TextView) findViewById(R.id.user_id);
+//                userId.setText(account.getId());
+//
+//                final TextView phoneNumber = (TextView) findViewById(R.id.user_phone);
+//                final PhoneNumber number = account.getPhoneNumber();
+//                phoneNumber.setText(number == null ? null : number.toString());
+//
+//                final TextView email = (TextView) findViewById(R.id.user_email);
+//                email.setText(account.getEmail());
+
+
+                LogMe.e("onResume", "" + account.getId() + "phn:" + account.getPhoneNumber());
+            }
+
+            @Override
+            public void onError(final AccountKitError error) {
+            }
+        });
     }
 
     @Override

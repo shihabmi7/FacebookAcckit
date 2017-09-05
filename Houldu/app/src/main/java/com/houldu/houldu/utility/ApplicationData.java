@@ -1,4 +1,4 @@
-package com.calldoctor.calldoctor.utility;
+package com.houldu.houldu.utility;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.calldoctor.calldoctor.activity.LoginActivity;
+import com.houldu.houldu.activity.LoginActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +19,7 @@ public class ApplicationData {
     public static final String CALL_NOW_TEXT = "CALL NOW (TK.";
     public static final String FIRST_BRACE_END = ")";
     public static final String DOCTOR_PROFILE_OBJECT = "doctor_profile";
+    public static final String TAXI_BASE_URL = "https://live.houldu.com";
 
 
     public enum userType {

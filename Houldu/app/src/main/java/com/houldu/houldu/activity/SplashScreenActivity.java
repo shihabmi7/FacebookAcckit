@@ -1,4 +1,4 @@
-package com.houldu.houldu;
+package com.houldu.houldu.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.houldu.houldu.utility.PrefsValues;
+import com.houldu.houldu.R;
+import com.houldu.houldu.utility.ApplicationData;
 
 
 /*

@@ -3,6 +3,29 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_password_not_match">Password not matched</string>
+    <string name="pick_image_intent_text">Take A picture</string>
+    <string name="lets_start">Let\'s Start</string>
+
+    <string name="facebook_app_id">1752929058270491</string>
+    <string name="account_kit_client_token">86b4f4de1585a6c9c3a9aeeb0d00bd61</string>
+    <string name="fb_login_protocol_scheme">fb1752929058270491</string>
+    <string name="title_activity_facebook_log_in">FacebookLogInActivity</string>
+
+
+    <string name="log_in_email_button">Log In via Email</string>
+    <string name="log_in_phone_button">Log In via Phone</string>
+    <string name="log_out_button">Log Out</string>
+    <string name="error_label">Error</string>
+    <string name="loading_placeholder">Loading&#8230;</string>
+    <string name="user_id_label">Account ID</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="email_label">Email</string>
+    <string name="na">NA</string>
 </resources>

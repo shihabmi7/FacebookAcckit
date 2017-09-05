@@ -1,4 +1,4 @@
-package com.ucabs.passenger.response;
+package com.houldu.houldu.model;
 
 /**
  * Created by Amir on 11/26/2016.

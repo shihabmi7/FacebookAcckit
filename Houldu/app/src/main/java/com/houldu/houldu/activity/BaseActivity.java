@@ -1,4 +1,4 @@
-package com.calldoctor.calldoctor.activity;
+package com.houldu.houldu.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.calldoctor.calldoctor.utility.ApplicationData;
-import com.calldoctor.calldoctor.utility.PrefsValues;
+import com.houldu.houldu.utility.PrefsValues;
+import com.houldu.houldu.utility.ApplicationData;
 
 
 /**

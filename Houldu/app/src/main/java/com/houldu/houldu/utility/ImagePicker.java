@@ -1,4 +1,4 @@
-package com.calldoctor.calldoctor.utility;
+package com.houldu.houldu.utility;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.calldoctor.calldoctor.R;
+import com.houldu.houldu.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

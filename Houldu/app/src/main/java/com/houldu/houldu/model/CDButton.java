@@ -1,11 +1,11 @@
-package com.calldoctor.calldoctor.model;
+package com.houldu.houldu.model;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
-import com.calldoctor.calldoctor.utility.FontCache;
+import com.houldu.houldu.utility.FontCache;
 
 
 /**

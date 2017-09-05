@@ -53,31 +53,6 @@
 
 
              </RelativeLayout>-->
-            <com.calldoctor.calldoctor.model.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/segmented_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                segmentedgroup:sc_border_width="2dp"
-                segmentedgroup:sc_corner_radius="10dp">
-
-                <RadioButton
-                    android:id="@+id/button_patient"
-                    style="@style/RadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="I'm a Patient" />
-
-                <RadioButton
-                    android:id="@+id/button_doctor"
-                    style="@style/RadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="I'm a Doctor" />
-            </com.calldoctor.calldoctor.model.SegmentedGroup>
 
 
             <TextView
@@ -103,10 +78,8 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/segmented_user"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_edit_box"
-                android:drawableLeft="@mipmap/user"
                 android:drawablePadding="10dp"
                 android:hint="Name"
                 android:inputType="text"
@@ -124,7 +97,7 @@
                 android:layout_below="@id/et_name"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_edit_box"
-                android:drawableLeft="@mipmap/mobile_number"
+
                 android:drawablePadding="10dp"
                 android:hint="Phone"
                 android:inputType="number"
@@ -143,7 +116,7 @@
                 android:layout_below="@+id/et_phone"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_edit_box"
-                android:drawableLeft="@mipmap/password"
+
                 android:drawablePadding="10dp"
                 android:hint="Password"
                 android:inputType="textPassword"
@@ -179,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/et_password"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/red_btn"
+
                 android:text="Continue"
                 android:textColor="@android:color/white"
                 android:textSize="19dp"

@@ -1,37 +1,29 @@
-package com.houldu.houldu;
+package com.houldu.houldu.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.houldu.houldu.R;
 import com.houldu.houldu.utility.ApplicationData;
 import com.houldu.houldu.utility.Connectivity;
 import com.houldu.houldu.utility.LogMe;
-
-import java.util.List;
-import java.util.Map;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class SignUpActivity extends BaseActivity implements OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class SignUpActivity extends BaseActivity implements OnClickListener {
 
     private View mProgressView;
 
@@ -115,10 +107,10 @@ public class SignUpActivity extends BaseActivity implements OnClickListener, Rad
 
             if (v == btn_continue) {
 
-                if (!checkUserInput()) {
+              /*  if (!checkUserInput()) {
 
                     signUpRequestToServer();
-                }
+                }*/
 
             } else if (v == textview_sign_in) {
 
@@ -152,13 +144,13 @@ public class SignUpActivity extends BaseActivity implements OnClickListener, Rad
     }
 
 
-    void goToCompleteprofile(SignUpResponse signUpResponse) {
+    void goToCompleteprofile() {
 
 
 //        signUpResponse.getPhoneNumber();
 //        signUpResponse.getName();
 
-        prefsValues.setContactNo(signUpResponse.getPhoneNumber());
+        /*prefsValues.setContactNo(signUpResponse.getPhoneNumber());
         prefsValues.setApp_user_name(signUpResponse.getName());
         prefsValues.setToken(signUpResponse.getApiToken());
         prefsValues.setApp_user_id(signUpResponse.getUserId());
@@ -166,7 +158,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener, Rad
         Intent intent = new Intent(SignUpActivity.this, CompleteProfileActivity.class);
         //intent.setClass(SplashScreenActivity.this, FriendsAndFamilyActivity.class);
         startActivity(intent);
-        finish();
+        finish();*/
 
 
     }
@@ -186,12 +178,12 @@ public class SignUpActivity extends BaseActivity implements OnClickListener, Rad
         boolean cancel = false;
         View focusView = null;
 
-      /*  // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            et_password.setError(getString(R.string.error_invalid_password));
-            focusView = et_password;
-            cancel = true;
-        }*/
+        // Check for a valid password, if the user entered one.
+//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+//            et_password.setError(getString(R.string.error_invalid_password));
+//            focusView = et_password;
+//            cancel = true;
+//        }
 
         if (TextUtils.isEmpty(phone)) {
             et_phone.setError(getString(R.string.error_field_required));
@@ -231,28 +223,6 @@ public class SignUpActivity extends BaseActivity implements OnClickListener, Rad
         }
 
         return cancel;
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
-        switch (checkedId) {
-
-                  /*  UserTypePatient=1,
-                            UserTypeDoctor=2,
-                            UserTypeAdmin=3,*/
-            case R.id.button_patient:
-                setUser_type(1);
-                Toast.makeText(getApplicationContext(), "Patient", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.button_doctor:
-                setUser_type(2);
-                Toast.makeText(getApplicationContext(), "Doctor", Toast.LENGTH_SHORT).show();
-                break;
-
-            default:
-                break;
-            // Nothing to do
-        }
     }
 
 
