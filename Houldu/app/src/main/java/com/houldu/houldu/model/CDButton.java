@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
+import com.houldu.houldu.R;
 import com.houldu.houldu.utility.FontCache;
 
 
@@ -42,6 +43,9 @@ public class CDButton extends AppCompatButton {
     private void applyCustomFont(Context context) {
         Typeface customFont = FontCache.getTypeface("font/BalooBhaijaan-Regular.ttf", context);
         setTypeface(customFont);
+        setBackground();
     }
-
+    private void setBackground( ) {
+        setBackgroundColor(getResources().getColor(R.color.app_orange));
+    }
 }
